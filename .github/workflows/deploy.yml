@@ -9,32 +9,34 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    # all run: commands now start in the 'frontend' directory
+    defaults:
+      run:
+        working-directory: frontend
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-    - name: cd into frontend directory
-      run: cd frontend
+      - name: Install dependencies
+        run: npm install
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Build
+        run: npm run build
 
-    - name: Build the project
-      run: npm run build
+      - name: Load SSH key & known hosts
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+          known-hosts: ${{ secrets.HOST }}
 
-    - name: Set up SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
-        chmod 600 ~/.ssh/id_ed25519
-        ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
-
-    - name: Deploy
-      run: |
-        rsync -avz --delete ./frontend/dist/ \
-          ${{ secrets.USER }}@${{ secrets.HOST }}:/home/da22le/hosted/da22le-site-conf/dist/
+      - name: Deploy via rsync
+        run: |
+          rsync -avz --delete \
+            dist/ \
+            ${{ secrets.USER }}@${{ secrets.HOST }}:/home/da22le/hosted/da22le-site-conf/dist/
