@@ -1,49 +1,39 @@
-name: Build and Deploy to remote server
+name: Deploy Frontend
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main     # or whichever branch you deploy from
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: frontend
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Check out code
+        uses: actions/checkout@v3
 
-      - name: Use Node.js 20
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: '16'   # match your project requirements
 
       - name: Install dependencies
-        run: npm install
+        working-directory: frontend
+        run: npm ci
 
-      - name: Build
+      - name: Build production bundle
+        working-directory: frontend
         run: npm run build
 
-      - name: Set up SSH key
+      - name: Prepare SSH key
         run: |
           mkdir -p ~/.ssh
-          # Write your private key from the secret into a file
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          # Add remote host to known_hosts to avoid prompt
+          ssh-keyscan -H "${{ secrets.HOST }}" >> ~/.ssh/known_hosts
 
-      - name: Verify SSH connectivity
+      - name: Upload dist via SCP
         run: |
-          ssh -i ~/.ssh/deploy_key \
-              -o StrictHostKeyChecking=no \
-              ${{ secrets.USER }}@${{ secrets.HOST }} \
-              "echo SSH OK"
-
-      - name: Deploy via rsync
-        run: |
-          rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
-            dist/ \
-            ${{ secrets.USER }}@${{ secrets.HOST }}:/home/da22le/hosted/da22le-site-conf/dist/
+          scp -r frontend/dist/* \
+            "${{ secrets.USER }}@${{ secrets.HOST }}:/home/da22le/hosted/da22le-site-conf/dist/"
