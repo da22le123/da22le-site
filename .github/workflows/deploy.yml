@@ -1,21 +1,23 @@
+# .github/workflows/deploy-frontend.yml
 name: Deploy Frontend
 
 on:
   push:
     branches:
-      - main     # or whichever branch you deploy from
+      - main     # or your deploy branch
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Use Node.js 18
         uses: actions/setup-node@v3
         with:
-          node-version: '16'   # match your project requirements
+          node-version: '18'   # ← upgraded from 16 to 18
 
       - name: Install dependencies
         working-directory: frontend
@@ -30,10 +32,9 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          # Add remote host to known_hosts to avoid prompt
           ssh-keyscan -H "${{ secrets.HOST }}" >> ~/.ssh/known_hosts
 
       - name: Upload dist via SCP
         run: |
-          scp -r frontend/dist/* \
+          scp -o StrictHostKeyChecking=no -r frontend/dist/* \
             "${{ secrets.USER }}@${{ secrets.HOST }}:/home/da22le/hosted/da22le-site-conf/dist/"
