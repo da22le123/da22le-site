@@ -5,6 +5,15 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [message, setMessage] = useState<string>('')
+  const apiUrl = "http://da22le.org/api";
+
+  useEffect(() => {
+    fetch(`${apiUrl}/`)
+      .then((res) => res.text())
+      .then((data) => setMessage(data))
+      .catch((err) => console.error('Error fetching message:', err))
+  }, [])
 
   return (
     <>
@@ -16,7 +25,7 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>hello1</h1>
+       <h1>{message || 'Loading...'}</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
