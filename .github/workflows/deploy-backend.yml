@@ -85,11 +85,11 @@ jobs:
             cd /home/da22le/hosted
 
             # pull the fresh image
-            sudo docker pull $IMAGE
+            docker pull $IMAGE
 
             # recreate only the backend service
-            sudo docker-compose up -d --no-deps da22le-site-backend
+            docker-compose up -d --no-deps da22le-site-backend
 
             # clean up old, untagged images
-            sudo docker image prune -f
+            docker image prune -f
           EOF
