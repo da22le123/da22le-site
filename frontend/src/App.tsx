@@ -6,7 +6,7 @@ import './App.css'
 function App() {
   const [count, setCount] = useState(0)
   const [message, setMessage] = useState<string>('')
-  const apiUrl = "https://da22le.org/api/";
+  const apiUrl = "https://da22le.org/api";
 
   useEffect(() => {
     fetch(`${apiUrl}/`)
