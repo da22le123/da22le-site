@@ -9,7 +9,6 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
-    # all run: commands now start in the 'frontend' directory
     defaults:
       run:
         working-directory: frontend
@@ -29,11 +28,16 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Load SSH key & known hosts
+      - name: Start SSH agent and add key
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
-          known-hosts: ${{ secrets.HOST }}
+
+      - name: Add remote host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
 
       - name: Deploy via rsync
         run: |
