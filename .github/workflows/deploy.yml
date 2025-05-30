@@ -1,40 +1,30 @@
-# .github/workflows/deploy-frontend.yml
 name: Deploy Frontend
-
-on:
-  push:
-    branches:
-      - main     # or your deploy branch
+on: [push]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check out code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Use Node.js 18
         uses: actions/setup-node@v3
         with:
-          node-version: '18'   # ← upgraded from 16 to 18
+          node-version: 18
 
-      - name: Install dependencies
-        working-directory: frontend
-        run: npm ci
-
-      - name: Build production bundle
-        working-directory: frontend
-        run: npm run build
-
-      - name: Prepare SSH key
+      - name: Install & build
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H "${{ secrets.HOST }}" >> ~/.ssh/known_hosts
+          cd frontend
+          npm ci
+          npm run build
 
-      - name: Upload dist via SCP
+      - name: Load SSH key
+        uses: webfactory/ssh-agent@v0.8.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - name: Upload via SCP
         run: |
-          scp -o StrictHostKeyChecking=no -r frontend/dist/* \
-            "${{ secrets.USER }}@${{ secrets.HOST }}:/home/da22le/hosted/da22le-site-conf/dist/"
+          scp -o StrictHostKeyChecking=no -r \
+            frontend/dist/* \
+            ${{ secrets.USER }}@${{ secrets.HOST }}:/home/da22le/hosted/da22le-site-conf/dist/
