@@ -14,11 +14,10 @@ app.use(cors({
 app.use(express.json()); 
 
 app.get('/api', (req, res) => {
-  res.send('hello world')
+  res.send('12345678')
 })
 
 
-// Global error handler (should be after routes)
 app.use(errorHandler);
 
 export default app;
