@@ -79,7 +79,7 @@ jobs:
           USER: ${{ secrets.USER }}
           IMAGE: ghcr.io/${{ github.repository_owner }}/backend:latest
         run: |
-          ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
+          ssh -o StrictHostKeyChecking=no $USER@$HOST << EOF
             set -eux
 
             cd /home/da22le/hosted
