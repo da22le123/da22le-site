@@ -68,3 +68,4 @@ jobs:
           rsync -avz --delete \
             frontend/dist/ \
             ${{ secrets.HOST }}:/home/da22le/hosted/da22le-site-conf/dist/
+            
