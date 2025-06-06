@@ -1,0 +1,33 @@
+/* 
+  Place this file alongside LandingPage.tsx as LandingPage.css.
+  Be sure you have copied your “zoomed-in” cross PNG into public/cross.png
+  so that "/cross.png" resolves correctly.
+*/
+
+/*  
+  1) Full‐screen container 
+  2) Dark‐gray (#242424) background 
+  3) Tile “cross.png” in a centered 4×4 grid (so that no cross is ever half‐cut at any edge)
+*/
+.landing-background {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+
+  background-color: #242424;
+  background-image: url('../assets/cross.png');
+  background-repeat: repeat;
+
+  /* 
+    We want exactly 4 crosses across, 4 crosses down, with no cropping. 
+    In your “should‐look” screenshot, the overall width was ≈1608px (4×402px) and height ≈1040px (4×260px). 
+    So:
+      • background-size: 402px 260px;
+      • background-position: center center;
+    If your viewport is exactly 1608×1040, you’ll see a perfect 4×4 grid. 
+    If your viewport is a bit larger/smaller, “center center” keeps the grid centered so you never get a half‐cross at any edge.
+  */
+  background-size: 200px 200px;
+  background-position: center center;
+}
