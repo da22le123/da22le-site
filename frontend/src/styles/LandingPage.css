@@ -1,14 +1,14 @@
-
 .landing-background {
   position: relative;
   width: 100vw;
   height: 100vh;
   margin: 0;
   padding: 0;
-  background-color: #2C2A2A;
+  background: #2C2A2A;
+  overflow: hidden;
 }
 
-/*–– Desktop pattern ––*/
+/* pattern stays at z-index 1 */
 .pattern-container {
   position: absolute;
   top: 15%;
@@ -19,10 +19,11 @@
   background-size: 190px 180px;
   background-repeat: space;
   background-position: center;
+  -webkit-mask-image: radial-gradient(circle at center, black 70%, transparent 100%);
+  mask-image: radial-gradient(circle at center, black 70%, transparent 100%);
+  z-index: 1;
 }
 
-
-/*–– Mobile pattern ––*/
 @media (max-width: 650px) {
   .pattern-container {
     position: absolute;
@@ -33,4 +34,62 @@
 
     background-size: 50vw 50vw;
   }
+}
+
+/* content now overlays the pattern-box exactly, at z-index 2 */
+.content {
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  right: 15%;
+  bottom: 12%;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+/* lift logo just above the top edge of that box */
+.logo {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 300;
+  font-size: 5rem;
+  margin: 0;
+}
+
+/* cards stay perfectly centered inside */
+.card-row {
+  display: flex;
+  gap: 2rem;
+}
+
+@media (max-width: 650px) {
+  .card-row {
+    width: 200px;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    padding: 5rem;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;  
+  }
+
+  .card-row::-webkit-scrollbar {
+    display: none; 
+  }
+
+  .card-row > * {
+    scroll-snap-align: center;
+    box-sizing: border-box;
+
+  } 
 }
