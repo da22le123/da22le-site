@@ -1,0 +1,97 @@
+
+.portfolio-page {
+  align-items: center;
+  color: aliceblue;
+
+
+
+  height: 100vh;                 /* each “screen” is full viewport */
+  overflow-y: auto;              /* enable scrolling */
+  scroll-snap-type: y mandatory; /* force snap on vertical scroll */
+}
+
+.scroll-section {
+  scroll-snap-align: start;      /* snap to its top edge */
+  height: 100vh;                 /* fill the viewport */
+  box-sizing: border-box;
+  padding: 2rem;                 /* optional spacing */
+  scroll-snap-stop: always;
+}
+
+.home-link {
+  color: inherit;
+}
+
+.introduction {
+  text-align: center;
+}
+
+.button-wrapper {
+  padding-top: 10rem;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .button-wrapper {
+    display: none;
+  }
+}
+
+.view-projects-button {
+  font-family: "JetBrains Mono", monospace;
+  background-color:aliceblue;
+  font-weight: 800;
+  gap: 0.2rem;
+
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  width:10rem;
+  height: 3rem;
+  max-width: 10rem;
+
+  cursor: pointer;
+  box-shadow: -4px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.view-projects-button:hover {
+  background-color: #e0e8f0;   /* slightly darker/lighter shade */
+  transform: translateY(-2px);
+  box-shadow: -6px 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+header {
+  display: flex;
+  height: 5rem;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  overflow: hidden;
+  color: aliceblue;
+}
+
+h1 {
+  font-size: 4rem; 
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 2.5rem; /* ~40px if you assume 16px base */
+  line-height: 1.2;
+  margin: 0.67em 0;
+}
+
+h3 {
+  font-size: 1.75rem; /* ~28px */
+  line-height: 1.4;
+  margin: 0.83em 0;
+}
+
+
+
+

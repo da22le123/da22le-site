@@ -6,3 +6,13 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+.background {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: #2C2A2A;
+}
+

@@ -1,12 +1,3 @@
-.landing-background {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  background: #2C2A2A;
-  overflow: hidden;
-}
 
 /* pattern stays at z-index 1 */
 .pattern-container {
@@ -15,7 +6,7 @@
   left: 15%;
   right: 15%;
   bottom: 12%;
-  background-image: url('../assets/cross.png');
+  background-image: url('../../assets/cross.png');
   background-size: 190px 180px;
   background-repeat: space;
   background-position: center;
