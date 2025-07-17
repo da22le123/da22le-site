@@ -2,12 +2,10 @@
 .portfolio-page {
   align-items: center;
   color: aliceblue;
-
-
-
-  height: 100vh;                 /* each “screen” is full viewport */
-  overflow-y: auto;              /* enable scrolling */
-  scroll-snap-type: y mandatory; /* force snap on vertical scroll */
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
 }
 
 .scroll-section {
@@ -93,5 +91,29 @@ h3 {
 }
 
 
+/* apply to that single-word title */
+h2.line-1 {
+  /* exactly 9 characters wide */
+  width: 9ch;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid rgba(255,255,255,.75);
+}
+
+/* the animation */
+h2.anim-typewriter {
+  animation:
+    typewriter 2s steps(9) 0.5s 1 normal both,
+    blinkTextCursor 500ms steps(9) 5 2.5s forwards;
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to   { width: 9ch; }
+}
+@keyframes blinkTextCursor {
+  from { border-right-color: rgba(255,255,255,.75); }
+  to   { border-right-color: transparent; }
+}
 
 

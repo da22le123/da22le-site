@@ -4,13 +4,30 @@ html {
     overflow: hidden;
     height: 100%;
     font-family: "JetBrains Mono", monospace;
-    scroll-behavior: smooth;
-
 }
 
 body {
     overflow: auto;
     height: 100%;
     font-family: "JetBrains Mono", monospace;
-    scroll-behavior: smooth;
+}
+.fade-enter {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in-out;
+}
+.fade-exit {
+  opacity: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
 }

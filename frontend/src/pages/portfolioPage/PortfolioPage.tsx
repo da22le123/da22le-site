@@ -40,7 +40,7 @@ const PortfolioPage: React.FC = () => {
         
       
             <header>
-              <h2>Portfolio</h2>
+              <h2 className="line-1 anim-typewriter">Portfolio</h2>
               <Link className="home-link" to={{pathname: "/"}}>Home</Link>
             </header>
             <div className="introduction">
