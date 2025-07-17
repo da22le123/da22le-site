@@ -103,7 +103,7 @@ h2.line-1 {
 /* the animation */
 h2.anim-typewriter {
   animation:
-    typewriter 2s steps(9) 0.5s 1 normal both,
+    typewriter 1.5s steps(9) 0.5s 1 normal both,
     blinkTextCursor 500ms steps(9) 5 2.5s forwards;
 }
 
