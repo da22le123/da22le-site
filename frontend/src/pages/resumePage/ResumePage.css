@@ -1,0 +1,63 @@
+.resume-page {
+  background: #2C2A2A;
+}
+
+.resume-container {
+  background: #2C2A2A;
+  color: #f3f3f3;
+  font-family: system-ui, sans-serif;
+  padding: 2.5rem 1rem;
+  max-width: 768px;
+  margin: 0 auto;
+}
+
+
+.resume-header {
+  display: flex;
+}
+
+.resume-contact,
+.resume-contact a,
+.resume-contact span {
+  color: #f3f3f3 !important;
+  opacity: 0.9;
+  visibility: visible;
+}
+
+.resume-contact {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.resume-contact a { text-decoration: underline; color: #9dc1ff !important; }
+
+.resume-section {
+  margin-bottom: 2.5rem;
+}
+
+.resume-section h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.resume-work-item,
+.resume-edu-item {
+  margin-bottom: 1.5rem;
+}
+
+.resume-meta {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.resume-highlights {
+  margin-top: 0.5rem;
+  padding-left: 1.25rem;
+  list-style-type: disc;
+}
+
+.resume-highlights li {
+  margin-bottom: 0.25rem;
+}

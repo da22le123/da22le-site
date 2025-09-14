@@ -1,0 +1,80 @@
+{
+  "basics": {
+    "name": "Illia Pavelko",
+    "label": "Software Engineer",
+    "email": "pavelko.illia.dev@gmail.com",
+    "phone": "+31 6 42 99 31 98",
+    "profiles": [
+      { "network": "LinkedIn", "username": "illia-pavelko", "url": "https://linkedin.com/in/illia-pavelko" }
+    ],
+    "location": { "city": "", "countryCode": "NL" },
+    "summary": "Software Engineer with 3+ years designing and delivering scalable applications and microservices across telecom, SaaS, and manufacturing. Focused on reliability, maintainability, and shipping to production."
+  },
+  "work": [
+    {
+      "name": "Odido (Enterprise Integrations Team)",
+      "position": "Software Engineer Intern",
+      "location": "The Hague, Netherlands",
+      "startDate": "2025-09",
+      "summary": "Odido is one of the largest telecom companies in the Netherlands, delivering enterprise-level digital infrastructure and services.",
+      "highlights": [
+        "Built a Spring Boot microservice to sync data between a 3rd-party API and internal systems; reduced manual reconciliation by ~95%.",
+        "Event-driven architecture with Apache Kafka and Tyk Streams.",
+        "CI/CD with ArgoCD to AWS via Kubernetes & Helm; ~80% unit/integration test coverage."
+      ],
+      "keywords": ["Java 17","Spring Boot 3.5","Kafka","Tyk Streams","ArgoCD","AWS","Kubernetes","Helm","JUnit","Mockito"]
+    },
+    {
+      "name": "TheQuickSport.com",
+      "position": "Full Stack Developer",
+      "location": "Enschede, Netherlands / Remote",
+      "url": "http://thequicksport.com",
+      "startDate": "2024-04",
+      "endDate": "2025-09",
+      "summary": "Platform for athletes who don’t want to commit to a club.",
+      "highlights": [
+        "Defined REST API + dev conventions used across the project; supports 500+ MAU.",
+        "CI/CD for test/build/deploy.",
+        "Migrated from Heroku to AWS with Terraform; costs -30%, uptime 99.9%.",
+        "Introduced component hierarchy for reuse and navigation (CBSE)."
+      ],
+      "keywords": ["Vue.js","Node.js","Express","MongoDB","Redis","Docker","Docker Compose","AWS","Terraform","Redis Queue","OAuth2","Heroku"]
+    },
+    {
+      "name": "Self-Employed",
+      "position": "Software Engineer & Team Leader",
+      "startDate": "2022-09",
+      "summary": "Led a small team building web, desktop, and mobile applications.",
+      "highlights": [
+        "Pentas Moulding: camera + YOLO detection; dashboards; reduced faulty moulds from 7% → 2%; integrated with production flow.",
+        "AI-powered chatbot (peaked at ~200 DAU) and multiple web apps.",
+        "Designed inter-service messaging with RabbitMQ/Kafka; load distribution and balancing patterns.",
+        "WebRTC web-call app with self-hosted media servers."
+      ],
+      "keywords": ["Java 17","Kotlin 2","Spring 6","Spring Boot 3","RabbitMQ","Kafka","Express.js","Node.js","Svelte","React","Python 3","FastAPI","PostgreSQL","SQLite","Docker","Hibernate","JUnit","Mockito","C++","WebRTC","YOLO"]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Saxion University of Applied Sciences",
+      "area": "Information and Communication Technology",
+      "studyType": "Bachelor",
+      "location": "Deventer, Netherlands",
+      "startDate": "2023-09",
+      "endDate": "2027-08"
+    }
+  ],
+  "languages": [
+    { "language": "English" },
+    { "language": "Dutch" },
+    { "language": "Ukrainian" },
+    { "language": "Russian" },
+    { "language": "Spanish" }
+  ],
+  "interests": [
+    { "name": "Gym" },
+    { "name": "Volleyball" },
+    { "name": "Foreign languages" },
+    { "name": "Classic literature" }
+  ]
+}
