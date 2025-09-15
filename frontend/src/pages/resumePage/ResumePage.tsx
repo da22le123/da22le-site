@@ -23,32 +23,33 @@ export default function ResumePage() {
   return (
     <div className="resume-page">
       <div className="resume-container">
-        <div className="resume-header">
-          <div className="header">
-            <h1>{resume.basics.name}</h1>
-            <p>{resume.basics.label}</p>
-            <div className="resume-contact">
-              <a href={`mailto:${resume.basics.email}`}>{resume.basics.email}</a>
-              {resume.basics.phone && <span>{resume.basics.phone}</span>}
-              {resume.basics.profiles?.map((p) => (
-                <a key={p.url} href={p.url} target="_blank" rel="noreferrer">
-                  {p.network}
-                </a>
-              ))}
-            </div>
-          </div>
-            
 
+        <header className="resume-header">
+          <h2>Résumé</h2>
           <a href="/resume.pdf" target="_blank" rel="noreferrer">Download PDF</a>
-        </div>
+        </header>
 
+        <div className="header">
+          <h1>{resume.basics.name}</h1>
+          <div className="resume-contact">
+            <a href={`mailto:${resume.basics.email}`}>{resume.basics.email}</a>
+            {resume.basics.phone && <span>{resume.basics.phone}</span>}
+            {resume.basics.profiles?.map((p) => (
+              <a key={p.url} href={p.url} target="_blank" rel="noreferrer">
+                {p.network}
+              </a>
+            ))}
+          </div>
+        </div>
+            
         <section className="resume-section">
-          <h2>Summary</h2>
           <p>{resume.basics.summary}</p>
         </section>
 
+      
+
         <section className="resume-section">
-          <h2>Experience</h2>
+          <h2>Professional experience</h2>
           {resume.work.map((w, i) => (
             <div key={i} className="resume-work-item">
               <div className="resume-meta">
@@ -63,6 +64,13 @@ export default function ResumePage() {
                   <li key={j}>{h}</li>
                 ))}
               </ul>
+              
+              {w.keywords?.length > 0 && (
+                <p className="resume-techstack">
+                  <strong>Tech Stack:</strong> {w.keywords.join(", ")}
+                </p>
+              )}
+              <hr/>
             </div>
           ))}
         </section>

@@ -8,7 +8,7 @@
       { "network": "LinkedIn", "username": "illia-pavelko", "url": "https://linkedin.com/in/illia-pavelko" }
     ],
     "location": { "city": "", "countryCode": "NL" },
-    "summary": "Software Engineer with 3+ years designing and delivering scalable applications and microservices across telecom, SaaS, and manufacturing. Focused on reliability, maintainability, and shipping to production."
+    "summary": "Software Engineer with 3+ years of experience designing and delivering scalable applications and microservices. Skilled in working with small, fast-moving teams as well as larger organizations, with project experience across telecom, SaaS, and manufacturing. Focused on building reliable, maintainable systems and driving projects from design to production deployment and maintenance."
   },
   "work": [
     {
@@ -18,11 +18,11 @@
       "startDate": "2025-09",
       "summary": "Odido is one of the largest telecom companies in the Netherlands, delivering enterprise-level digital infrastructure and services.",
       "highlights": [
-        "Built a Spring Boot microservice to sync data between a 3rd-party API and internal systems; reduced manual reconciliation by ~95%.",
-        "Event-driven architecture with Apache Kafka and Tyk Streams.",
-        "CI/CD with ArgoCD to AWS via Kubernetes & Helm; ~80% unit/integration test coverage."
+        "Developed a Java Spring Boot microservice to synchronize data state between a 3rd-party API and internal systems, ensuring a single source of truth for business-critical information eliminating up to 95% of manual data reconciliation",
+        "Designed the solution using event-driven architecture with Apache Kafka and Tyk Streams, improving reliability and scalability of real-time integrations.",
+        "Designed and maintained CI/CD pipelines with ArgoCD, automating deployment into AWS via Kubernetes and Helm. Extensive unit and integration tests, achieving 80% code coverage integrated into the pipeline."
       ],
-      "keywords": ["Java 17","Spring Boot 3.5","Kafka","Tyk Streams","ArgoCD","AWS","Kubernetes","Helm","JUnit","Mockito"]
+      "keywords": ["Java 17","Spring Boot 3.5","Kafka","Tyk Streams","ArgoCD","AWS","Kubernetes","Helm","JUnit","Mockito", "Git", "Docker"]
     },
     {
       "name": "TheQuickSport.com",
@@ -31,12 +31,12 @@
       "url": "http://thequicksport.com",
       "startDate": "2024-04",
       "endDate": "2025-09",
-      "summary": "Platform for athletes who don’t want to commit to a club.",
+      "summary": "The Quick Sport is a platform that facilitates sport opportunities for athletes that do not want to commit to a club, gathering athletes together, and managing the events organization.",
       "highlights": [
-        "Defined REST API + dev conventions used across the project; supports 500+ MAU.",
-        "CI/CD for test/build/deploy.",
-        "Migrated from Heroku to AWS with Terraform; costs -30%, uptime 99.9%.",
-        "Introduced component hierarchy for reuse and navigation (CBSE)."
+        "Set up the RESTful API and development conventions that are used across the project up to this day supporting 1000+ monthly active users and enabling faster onboarding of new developers.",
+        "Set up the CI/CD pipelines for testing, building and deploying the application.",
+        "Transferred the application from Heroku to AWS, provisioning the infrastructure using Terraform that still serves as the main configuration, reducing hosting costs by 30% and improving system uptime to 99.9%.",
+        "Introduced the component hierarchy which allowed for seamless component reuse and easy navigation, following the best principles of CBSE"
       ],
       "keywords": ["Vue.js","Node.js","Express","MongoDB","Redis","Docker","Docker Compose","AWS","Terraform","Redis Queue","OAuth2","Heroku"]
     },
@@ -44,12 +44,12 @@
       "name": "Self-Employed",
       "position": "Software Engineer & Team Leader",
       "startDate": "2022-09",
-      "summary": "Led a small team building web, desktop, and mobile applications.",
+      "summary": "Me and a team of Software Engineers were working across multiple fields developing web, desktop and mobile applications as freelancers.",
       "highlights": [
-        "Pentas Moulding: camera + YOLO detection; dashboards; reduced faulty moulds from 7% → 2%; integrated with production flow.",
-        "AI-powered chatbot (peaked at ~200 DAU) and multiple web apps.",
-        "Designed inter-service messaging with RabbitMQ/Kafka; load distribution and balancing patterns.",
-        "WebRTC web-call app with self-hosted media servers."
+        "Pentas Moulding - Implemented a detection system using a camera and a YOLO model to recognize and count required components in real-time, issue alerts for missing items, and integrated a configurable web interface with dashboards for monitoring and seamless production flow control, reducing the percentage of faulty moulds from 7% to 2%. Integrated the system with the production process.",
+        "Designed & led the development of AI powered Chatbot with (200 daily users at its peak), and many Web Applications (multiple websites, also those in my portfolio)",
+        "Designed & developed messaging communication between services utilizing message brokers such RabbitMQ. Implemented many load distribution and balancing patterns.",
+        "Developed the web call application using WebRTC with self set up media servers."
       ],
       "keywords": ["Java 17","Kotlin 2","Spring 6","Spring Boot 3","RabbitMQ","Kafka","Express.js","Node.js","Svelte","React","Python 3","FastAPI","PostgreSQL","SQLite","Docker","Hibernate","JUnit","Mockito","C++","WebRTC","YOLO"]
     }
