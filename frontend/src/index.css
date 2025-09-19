@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 body {
   margin: 0;
   /* remove display:flex and place-items:center */
