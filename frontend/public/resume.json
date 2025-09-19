@@ -1,0 +1,80 @@
+{
+  "basics": {
+    "name": "Illia Pavelko",
+    "label": "Software Engineer",
+    "email": "pavelko.illia.dev@gmail.com",
+    "phone": "+31 6 42 99 31 98",
+    "profiles": [
+      { "network": "LinkedIn", "username": "illia-pavelko", "url": "https://linkedin.com/in/illia-pavelko" }
+    ],
+    "location": { "city": "", "countryCode": "NL" },
+    "summary": "Software Engineer with 3+ years of experience designing and delivering scalable applications and microservices. Skilled in working with small, fast-moving teams as well as larger organizations, with project experience across telecom, SaaS, and manufacturing. Focused on building reliable, maintainable systems and driving projects from design to production deployment and maintenance."
+  },
+  "work": [
+    {
+      "name": "Odido (Enterprise Integrations Team)",
+      "position": "Software Engineer Intern",
+      "location": "The Hague, Netherlands",
+      "startDate": "2025-09",
+      "summary": "Odido is one of the largest telecom companies in the Netherlands, delivering enterprise-level digital infrastructure and services.",
+      "highlights": [
+        "Developed a Java Spring Boot microservice to synchronize data state between a 3rd-party API and internal systems, ensuring a single source of truth for business-critical information eliminating up to 95% of manual data reconciliation",
+        "Designed the solution using event-driven architecture with Apache Kafka and Tyk Streams, improving reliability and scalability of real-time integrations.",
+        "Designed and maintained CI/CD pipelines with ArgoCD, automating deployment into AWS via Kubernetes and Helm. Extensive unit and integration tests, achieving 80% code coverage integrated into the pipeline."
+      ],
+      "keywords": ["Java 17","Spring Boot 3.5","Kafka","Tyk Streams","ArgoCD","AWS","Kubernetes","Helm","JUnit","Mockito", "Git", "Docker"]
+    },
+    {
+      "name": "TheQuickSport.com",
+      "position": "Full Stack Developer",
+      "location": "Enschede, Netherlands / Remote",
+      "url": "http://thequicksport.com",
+      "startDate": "2024-04",
+      "endDate": "2025-09",
+      "summary": "The Quick Sport is a platform that facilitates sport opportunities for athletes that do not want to commit to a club, gathering athletes together, and managing the events organization.",
+      "highlights": [
+        "Set up the RESTful API and development conventions that are used across the project up to this day supporting 1000+ monthly active users and enabling faster onboarding of new developers.",
+        "Set up the CI/CD pipelines for testing, building and deploying the application.",
+        "Transferred the application from Heroku to AWS, provisioning the infrastructure using Terraform that still serves as the main configuration, reducing hosting costs by 30% and improving system uptime to 99.9%.",
+        "Introduced the component hierarchy which allowed for seamless component reuse and easy navigation, following the best principles of CBSE"
+      ],
+      "keywords": ["Vue.js","Node.js","Express","MongoDB","Redis","Docker","Docker Compose","AWS","Terraform","Redis Queue","OAuth2","Heroku"]
+    },
+    {
+      "name": "Self-Employed",
+      "position": "Software Engineer & Team Leader",
+      "startDate": "2022-09",
+      "summary": "Me and a team of Software Engineers were working across multiple fields developing web, desktop and mobile applications as freelancers.",
+      "highlights": [
+        "Pentas Moulding - Implemented a detection system using a camera and a YOLO model to recognize and count required components in real-time, issue alerts for missing items, and integrated a configurable web interface with dashboards for monitoring and seamless production flow control, reducing the percentage of faulty moulds from 7% to 2%. Integrated the system with the production process.",
+        "Designed & led the development of AI powered Chatbot with (200 daily users at its peak), and many Web Applications (multiple websites, also those in my portfolio)",
+        "Designed & developed messaging communication between services utilizing message brokers such RabbitMQ. Implemented many load distribution and balancing patterns.",
+        "Developed the web call application using WebRTC with self set up media servers."
+      ],
+      "keywords": ["Java 17","Kotlin 2","Spring 6","Spring Boot 3","RabbitMQ","Kafka","Express.js","Node.js","Svelte","React","Python 3","FastAPI","PostgreSQL","SQLite","Docker","Hibernate","JUnit","Mockito","C++","WebRTC","YOLO"]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Saxion University of Applied Sciences",
+      "area": "Information and Communication Technology",
+      "studyType": "Bachelor",
+      "location": "Deventer, Netherlands",
+      "startDate": "2023-09",
+      "endDate": "2027-08"
+    }
+  ],
+  "languages": [
+    { "language": "English" },
+    { "language": "Dutch" },
+    { "language": "Ukrainian" },
+    { "language": "Russian" },
+    { "language": "Spanish" }
+  ],
+  "interests": [
+    { "name": "Gym" },
+    { "name": "Volleyball" },
+    { "name": "Foreign languages" },
+    { "name": "Classic literature" }
+  ]
+}
