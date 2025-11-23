@@ -1,7 +1,7 @@
 import "./PortfolioPage.css"
 import { ArrowDown, ExternalLink, Github, ChevronUp } from "lucide-react"
 import { Link } from "react-router-dom";
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 
 interface Project {
   id: number;
@@ -79,111 +79,191 @@ const projects: Project[] = [
 // Santa Hat SVG Component
 const SantaHat: React.FC<{ className?: string }> = ({ className }) => (
   <svg className={`santa-hat ${className || ''}`} viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Hat body */}
     <path d="M10 70 Q15 30 50 15 Q85 30 90 70" fill="#c41e3a" />
-    {/* White trim */}
     <ellipse cx="50" cy="70" rx="45" ry="10" fill="#fff" />
-    {/* Pompom */}
     <circle cx="50" cy="10" r="10" fill="#fff" />
-    {/* Hat tip curve */}
     <path d="M50 15 Q70 5 75 20" stroke="#c41e3a" strokeWidth="8" fill="none" strokeLinecap="round" />
     <circle cx="75" cy="22" r="8" fill="#fff" />
   </svg>
 );
 
 const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [peelAmount, setPeelAmount] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const startPosRef = useRef({ x: 0, y: 0 });
 
-  const handleCornerClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsFlipped(!isFlipped);
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+    startPosRef.current = { x: e.clientX, y: e.clientY };
+  }, []);
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isDragging) return;
+
+    const deltaX = startPosRef.current.x - e.clientX;
+    const deltaY = startPosRef.current.y - e.clientY;
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+    // Only peel if dragging upward/leftward from corner
+    if (deltaY > 0 || deltaX > 0) {
+      const newPeel = Math.min(100, distance / 2);
+      setPeelAmount(newPeel);
+    }
+  }, [isDragging]);
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+    // If peeled more than 50%, stay open, otherwise snap back
+    if (peelAmount < 50) {
+      setPeelAmount(0);
+    } else {
+      setPeelAmount(100);
+    }
+  }, [peelAmount]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    setIsDragging(true);
+    startPosRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  }, []);
+
+  const handleTouchMove = useCallback((e: TouchEvent) => {
+    if (!isDragging) return;
+
+    const deltaX = startPosRef.current.x - e.touches[0].clientX;
+    const deltaY = startPosRef.current.y - e.touches[0].clientY;
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+    if (deltaY > 0 || deltaX > 0) {
+      const newPeel = Math.min(100, distance / 2);
+      setPeelAmount(newPeel);
+    }
+  }, [isDragging]);
+
+  const handleTouchEnd = useCallback(() => {
+    setIsDragging(false);
+    if (peelAmount < 50) {
+      setPeelAmount(0);
+    } else {
+      setPeelAmount(100);
+    }
+  }, [peelAmount]);
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+      window.addEventListener('touchmove', handleTouchMove);
+      window.addEventListener('touchend', handleTouchEnd);
+    }
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
+
+  const handleCornerClick = () => {
+    // Toggle on click as fallback
+    setPeelAmount(peelAmount > 50 ? 0 : 100);
   };
+
+  // Calculate clip path for the peel effect
+  const clipPath = peelAmount > 0
+    ? `polygon(0 0, 100% 0, 100% ${100 - peelAmount}%, ${100 - peelAmount}% 100%, 0 100%)`
+    : 'none';
 
   return (
     <div
-      className={`project-card-container ${isFlipped ? 'flipped' : ''}`}
+      ref={cardRef}
+      className={`project-card-container`}
       style={{ animationDelay: `${index * 0.1}s` }}
     >
-      <div className="project-card-inner">
-        {/* Front of card */}
-        <div className={`project-card front ${project.featured ? 'featured' : ''}`}>
-          {project.featured && <SantaHat className="card-santa-hat" />}
-          <div className="card-glow" />
-          <div className="card-content">
-            <div className="card-header">
-              <h3 className="project-title">{project.title}</h3>
-              {project.featured && <span className="featured-badge">Featured</span>}
-            </div>
-
-            <p className="project-description">{project.description}</p>
-
-            <div className="tech-stack">
-              {project.technologies.map((tech, i) => (
-                <span
-                  key={tech}
-                  className="tech-tag"
-                  style={{ animationDelay: `${i * 0.05}s` }}
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-
-            <div className="card-links">
-              {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  className="project-link live-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <ExternalLink size={18} />
-                  <span>Live Demo</span>
-                </a>
-              )}
-              {project.githubUrl && (
-                <a
-                  href={project.githubUrl}
-                  className="project-link github-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Github size={18} />
-                  <span>Source</span>
-                </a>
-              )}
-            </div>
-          </div>
-          <div className="card-border" />
-
-          {/* Corner peel */}
-          <div className="corner-peel" onClick={handleCornerClick}>
-            <div className="corner-peel-front" />
-            <div className="corner-peel-back" />
-            <span className="corner-hint">Flip</span>
+      {/* Back layer - Image */}
+      <div className="project-card-back">
+        <div
+          className="card-image"
+          style={{ backgroundImage: `url(${project.image})` }}
+        >
+          <div className="image-overlay">
+            <h3 className="project-title">{project.title}</h3>
           </div>
         </div>
+      </div>
 
-        {/* Back of card */}
-        <div className="project-card back">
-          <div
-            className="card-image"
-            style={{ backgroundImage: `url(${project.image})` }}
-          >
-            <div className="image-overlay">
-              <h3 className="project-title">{project.title}</h3>
-            </div>
+      {/* Front layer - Content */}
+      <div
+        className={`project-card-front ${project.featured ? 'featured' : ''}`}
+        style={{
+          clipPath: clipPath,
+          transition: isDragging ? 'none' : 'clip-path 0.3s ease'
+        }}
+      >
+        {project.featured && <SantaHat className="card-santa-hat" />}
+        <div className="card-glow" />
+        <div className="card-content">
+          <div className="card-header">
+            <h3 className="project-title">{project.title}</h3>
+            {project.featured && <span className="featured-badge">Featured</span>}
           </div>
-          <div className="card-border" />
 
-          {/* Corner peel on back */}
-          <div className="corner-peel" onClick={handleCornerClick}>
-            <div className="corner-peel-front" />
-            <div className="corner-peel-back" />
-            <span className="corner-hint">Back</span>
+          <p className="project-description">{project.description}</p>
+
+          <div className="tech-stack">
+            {project.technologies.map((tech, i) => (
+              <span
+                key={tech}
+                className="tech-tag"
+                style={{ animationDelay: `${i * 0.05}s` }}
+              >
+                {tech}
+              </span>
+            ))}
           </div>
+
+          <div className="card-links">
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                className="project-link live-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <ExternalLink size={16} />
+                <span>Live Demo</span>
+              </a>
+            )}
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                className="project-link github-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Github size={16} />
+                <span>Source</span>
+              </a>
+            )}
+          </div>
+        </div>
+        <div className="card-border" />
+
+        {/* Corner peel handle */}
+        <div
+          className={`corner-peel ${isDragging ? 'dragging' : ''} ${peelAmount > 0 ? 'active' : ''}`}
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleTouchStart}
+          onClick={handleCornerClick}
+          style={{
+            transform: `scale(${1 + peelAmount / 100})`
+          }}
+        >
+          <div className="corner-fold" />
+          <span className="corner-hint">{peelAmount > 50 ? '↓' : '↑'}</span>
         </div>
       </div>
     </div>
@@ -282,7 +362,7 @@ const PortfolioPage: React.FC = () => {
           <div className="section-header">
             <SantaHat className="section-santa-hat" />
             <h2 className="section-title">My Projects</h2>
-            <p className="section-subtitle">Click the corner to flip and see project preview</p>
+            <p className="section-subtitle">Drag the corner to reveal project preview</p>
           </div>
 
           <div className="projects-grid">
