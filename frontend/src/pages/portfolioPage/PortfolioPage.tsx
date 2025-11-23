@@ -91,7 +91,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
     const rotateX = (y - centerY) / 10;
     const rotateY = (centerX - x) / 10;
 
-    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   };
 
   const handleMouseLeave = () => {
@@ -141,7 +141,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
           {project.liveUrl && (
             <a
               href={project.liveUrl}
-              className="card-link live-link"
+              className="project-link live-link"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -152,7 +152,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
           {project.githubUrl && (
             <a
               href={project.githubUrl}
-              className="card-link github-link"
+              className="project-link github-link"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -198,22 +198,6 @@ const PortfolioPage: React.FC = () => {
 
   return (
     <div className="background">
-      {/* Animated background elements */}
-      <div className="ambient-background">
-        <div className="gradient-orb orb-1" />
-        <div className="gradient-orb orb-2" />
-        <div className="gradient-orb orb-3" />
-        <div className="floating-particles">
-          {[...Array(20)].map((_, i) => (
-            <div key={i} className="particle" style={{
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${15 + Math.random() * 10}s`
-            }} />
-          ))}
-        </div>
-      </div>
-
       <div ref={containerRef} className="portfolio-page">
         {/* Hero Section */}
         <section className="scroll-section portfolio-hero">
