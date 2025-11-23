@@ -90,8 +90,11 @@ const SantaHat: React.FC<{ className?: string }> = ({ className }) => (
 const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
   const [peelAmount, setPeelAmount] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
   const startPosRef = useRef({ x: 0, y: 0 });
+  const peelRef = useRef(0);
+
+  // Keep ref in sync with state for use in callbacks
+  peelRef.current = peelAmount;
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -115,13 +118,14 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
-    // If peeled more than 50%, stay open, otherwise snap back
-    if (peelAmount < 50) {
+    // Use ref to get current value, snap based on threshold
+    const currentPeel = peelRef.current;
+    if (currentPeel < 40) {
       setPeelAmount(0);
     } else {
       setPeelAmount(100);
     }
-  }, [peelAmount]);
+  }, []);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     setIsDragging(true);
@@ -143,12 +147,13 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 
   const handleTouchEnd = useCallback(() => {
     setIsDragging(false);
-    if (peelAmount < 50) {
+    const currentPeel = peelRef.current;
+    if (currentPeel < 40) {
       setPeelAmount(0);
     } else {
       setPeelAmount(100);
     }
-  }, [peelAmount]);
+  }, []);
 
   useEffect(() => {
     if (isDragging) {
@@ -167,17 +172,19 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 
   const handleCornerClick = () => {
     // Toggle on click as fallback
-    setPeelAmount(peelAmount > 50 ? 0 : 100);
+    setPeelAmount(peelAmount > 40 ? 0 : 100);
   };
 
-  // Calculate clip path for the peel effect
-  const clipPath = peelAmount > 0
-    ? `polygon(0 0, 100% 0, 100% ${100 - peelAmount}%, ${100 - peelAmount}% 100%, 0 100%)`
-    : 'none';
+  // Calculate clip path - rectangle that shrinks from bottom-right
+  const p = peelAmount;
+  const clipPath = p >= 100
+    ? 'inset(0 100% 100% 0)' // fully hidden
+    : p > 0
+      ? `polygon(0 0, ${100 - p}% 0, ${100 - p}% ${100 - p}%, 0 ${100 - p}%)`
+      : 'none';
 
   return (
     <div
-      ref={cardRef}
       className={`project-card-container`}
       style={{ animationDelay: `${index * 0.1}s` }}
     >
