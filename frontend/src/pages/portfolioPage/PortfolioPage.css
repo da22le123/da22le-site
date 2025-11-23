@@ -549,6 +549,51 @@ h2.anim-typewriter {
   opacity: 1;
 }
 
+/* Corner restore - handle on back layer to restore front */
+.corner-restore {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 60px;
+  cursor: grab;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.corner-restore.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.corner-restore::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 45px 45px 0 0;
+  border-color: #228b22 transparent transparent transparent;
+  filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3));
+}
+
+.corner-restore .corner-hint {
+  position: absolute;
+  top: 8px;
+  left: 6px;
+  font-size: 0.85rem;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.corner-restore:hover::before {
+  border-width: 55px 55px 0 0;
+}
+
 /* Card Content */
 .card-content {
   position: relative;

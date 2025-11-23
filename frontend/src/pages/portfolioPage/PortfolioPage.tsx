@@ -90,28 +90,38 @@ const SantaHat: React.FC<{ className?: string }> = ({ className }) => (
 const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
   const [peelAmount, setPeelAmount] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const startPosRef = useRef({ x: 0, y: 0 });
   const startPeelRef = useRef(0);
   const peelRef = useRef(0);
+  const hasDraggedRef = useRef(false);
 
-  // Keep ref in sync with state for use in callbacks
+  // Keep ref in sync with state
   peelRef.current = peelAmount;
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     setIsDragging(true);
+    setIsAnimating(false);
+    hasDraggedRef.current = false;
     startPosRef.current = { x: e.clientX, y: e.clientY };
-    startPeelRef.current = peelRef.current; // Remember where we started
+    startPeelRef.current = peelRef.current;
   }, []);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!isDragging) return;
 
-    // Calculate drag direction - up/left increases peel, down/right decreases
     const deltaX = startPosRef.current.x - e.clientX;
     const deltaY = startPosRef.current.y - e.clientY;
+    const totalDrag = Math.abs(deltaX) + Math.abs(deltaY);
 
-    // Use diagonal distance, positive = peeling, negative = unpeeling
+    // Mark as dragged if moved more than 5px
+    if (totalDrag > 5) {
+      hasDraggedRef.current = true;
+    }
+
+    // Diagonal drag: up/left = peel more, down/right = peel less
     const dragDistance = (deltaX + deltaY) / 2;
     const newPeel = Math.max(0, Math.min(100, startPeelRef.current + dragDistance / 1.5));
     setPeelAmount(newPeel);
@@ -119,17 +129,34 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
-    // Use ref to get current value, snap based on threshold
+
     const currentPeel = peelRef.current;
-    if (currentPeel < 40) {
-      setPeelAmount(0);
-    } else {
-      setPeelAmount(100);
+    const startPeel = startPeelRef.current;
+
+    // If barely dragged, snap back to where we started
+    if (!hasDraggedRef.current || Math.abs(currentPeel - startPeel) < 5) {
+      setIsAnimating(true);
+      requestAnimationFrame(() => {
+        setPeelAmount(startPeel);
+      });
+      return;
     }
+
+    // Enable animation, then snap
+    setIsAnimating(true);
+    requestAnimationFrame(() => {
+      if (currentPeel < 40) {
+        setPeelAmount(0);
+      } else {
+        setPeelAmount(100);
+      }
+    });
   }, []);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     setIsDragging(true);
+    setIsAnimating(false);
+    hasDraggedRef.current = false;
     startPosRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
     startPeelRef.current = peelRef.current;
   }, []);
@@ -139,6 +166,11 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 
     const deltaX = startPosRef.current.x - e.touches[0].clientX;
     const deltaY = startPosRef.current.y - e.touches[0].clientY;
+    const totalDrag = Math.abs(deltaX) + Math.abs(deltaY);
+
+    if (totalDrag > 5) {
+      hasDraggedRef.current = true;
+    }
 
     const dragDistance = (deltaX + deltaY) / 2;
     const newPeel = Math.max(0, Math.min(100, startPeelRef.current + dragDistance / 1.5));
@@ -147,12 +179,26 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 
   const handleTouchEnd = useCallback(() => {
     setIsDragging(false);
+
     const currentPeel = peelRef.current;
-    if (currentPeel < 40) {
-      setPeelAmount(0);
-    } else {
-      setPeelAmount(100);
+    const startPeel = startPeelRef.current;
+
+    if (!hasDraggedRef.current || Math.abs(currentPeel - startPeel) < 5) {
+      setIsAnimating(true);
+      requestAnimationFrame(() => {
+        setPeelAmount(startPeel);
+      });
+      return;
     }
+
+    setIsAnimating(true);
+    requestAnimationFrame(() => {
+      if (currentPeel < 40) {
+        setPeelAmount(0);
+      } else {
+        setPeelAmount(100);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -171,8 +217,11 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
   }, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
 
   const handleCornerClick = () => {
-    // Toggle on click as fallback
-    setPeelAmount(peelAmount > 40 ? 0 : 100);
+    if (hasDraggedRef.current) return; // Don't toggle if we just dragged
+    setIsAnimating(true);
+    requestAnimationFrame(() => {
+      setPeelAmount(peelAmount > 40 ? 0 : 100);
+    });
   };
 
   // Calculate clip path - diagonal peel from bottom-right corner
@@ -200,6 +249,15 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
             <h3 className="project-title">{project.title}</h3>
           </div>
         </div>
+        {/* Corner handle to restore front layer - visible when peeled */}
+        <div
+          className={`corner-restore ${peelAmount > 50 ? 'visible' : ''}`}
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleTouchStart}
+          onClick={handleCornerClick}
+        >
+          <span className="corner-hint">↓</span>
+        </div>
       </div>
 
       {/* Front layer - Content */}
@@ -207,7 +265,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
         className={`project-card-front ${project.featured ? 'featured' : ''}`}
         style={{
           clipPath: clipPath,
-          transition: isDragging ? 'none' : 'clip-path 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+          transition: isAnimating ? 'clip-path 0.4s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
         }}
       >
         {project.featured && <SantaHat className="card-santa-hat" />}
