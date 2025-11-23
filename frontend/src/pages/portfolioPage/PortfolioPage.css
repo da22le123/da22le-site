@@ -23,6 +23,48 @@
 }
 
 /* ==========================================
+   SANTA HAT DECORATIONS
+   ========================================== */
+.santa-hat {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+  filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3));
+}
+
+.badge-santa-hat {
+  width: 28px;
+  height: 22px;
+  top: -12px;
+  left: -8px;
+  transform: rotate(-15deg);
+}
+
+.stats-santa-hat {
+  width: 45px;
+  height: 36px;
+  top: -20px;
+  left: -15px;
+  transform: rotate(-20deg);
+}
+
+.section-santa-hat {
+  width: 50px;
+  height: 40px;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%) rotate(10deg);
+}
+
+.card-santa-hat {
+  width: 40px;
+  height: 32px;
+  top: -12px;
+  right: -8px;
+  transform: rotate(15deg);
+}
+
+/* ==========================================
    HERO SECTION
    ========================================== */
 .portfolio-hero {
@@ -121,6 +163,7 @@ h2.anim-typewriter {
 }
 
 .hero-badge {
+  position: relative;
   display: inline-block;
   padding: 0.5rem 1.5rem;
   background: linear-gradient(135deg, rgba(196, 30, 58, 0.2), rgba(34, 139, 34, 0.2));
@@ -174,6 +217,7 @@ h2.anim-typewriter {
 
 /* Hero Stats */
 .hero-stats {
+  position: relative;
   display: flex;
   gap: 3rem;
   margin-top: 3rem;
@@ -320,6 +364,7 @@ h2.anim-typewriter {
 }
 
 .section-header {
+  position: relative;
   text-align: center;
   margin-bottom: 3rem;
   animation: fadeInUp 0.8s ease both;
@@ -353,17 +398,49 @@ h2.anim-typewriter {
 }
 
 /* ==========================================
+   FLIP CARD CONTAINER
+   ========================================== */
+.project-card-container {
+  perspective: 1000px;
+  height: 280px;
+  animation: cardFadeIn 0.6s ease both;
+}
+
+.project-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.project-card-container.flipped .project-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* ==========================================
    PROJECT CARDS - Christmas Theme
    ========================================== */
 .project-card {
-  position: relative;
+  position: absolute;
+  width: 100%;
+  height: 100%;
   background: rgba(58, 57, 57, 0.6);
   border-radius: 20px;
   padding: 1.5rem;
-  transition: transform 0.1s ease;
-  animation: cardFadeIn 0.6s ease both;
-  transform-style: preserve-3d;
-  cursor: pointer;
+  box-sizing: border-box;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.project-card.front {
+  z-index: 2;
+}
+
+.project-card.back {
+  transform: rotateY(180deg);
+  padding: 0;
+  overflow: hidden;
 }
 
 @keyframes cardFadeIn {
@@ -377,6 +454,31 @@ h2.anim-typewriter {
   }
 }
 
+/* Card Image (Back) */
+.card-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  border-radius: 20px;
+  position: relative;
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  border-radius: 0 0 20px 20px;
+}
+
+.image-overlay .project-title {
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
 /* Animated Border - Christmas colors */
 .card-border {
   position: absolute;
@@ -388,13 +490,8 @@ h2.anim-typewriter {
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  opacity: 0.5;
   pointer-events: none;
-}
-
-.project-card:hover .card-border {
-  opacity: 1;
 }
 
 /* Glow Effect - Christmas red */
@@ -417,8 +514,70 @@ h2.anim-typewriter {
   background: linear-gradient(135deg, rgba(196, 30, 58, 0.1), rgba(34, 139, 34, 0.1));
 }
 
-.project-card.featured .card-border {
-  opacity: 0.5;
+/* ==========================================
+   CORNER PEEL EFFECT
+   ========================================== */
+.corner-peel {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.corner-peel-front {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 50px 50px;
+  border-color: transparent transparent rgba(196, 30, 58, 0.8) transparent;
+  transition: all 0.3s ease;
+  transform-origin: bottom right;
+}
+
+.corner-peel-back {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 50px 50px 0 0;
+  border-color: rgba(255, 215, 0, 0.9) transparent transparent transparent;
+  transition: all 0.3s ease;
+  transform-origin: bottom right;
+  opacity: 0;
+}
+
+.corner-hint {
+  position: absolute;
+  bottom: 8px;
+  right: 5px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.corner-peel:hover .corner-peel-front {
+  border-width: 0 0 60px 60px;
+}
+
+.corner-peel:hover .corner-peel-back {
+  opacity: 1;
+  border-width: 60px 60px 0 0;
+}
+
+.corner-peel:hover .corner-hint {
+  opacity: 1;
 }
 
 /* Card Content */
@@ -597,6 +756,10 @@ h2.anim-typewriter {
     gap: 1.5rem;
   }
 
+  .project-card-container {
+    height: 300px;
+  }
+
   .project-card {
     padding: 1.25rem;
   }
@@ -614,6 +777,15 @@ h2.anim-typewriter {
     right: 1rem;
     width: 44px;
     height: 44px;
+  }
+
+  .santa-hat {
+    transform: scale(0.8);
+  }
+
+  .stats-santa-hat {
+    top: -15px;
+    left: -10px;
   }
 }
 
@@ -642,6 +814,13 @@ h2.anim-typewriter {
 
   .featured-badge {
     align-self: flex-start;
+  }
+
+  .badge-santa-hat {
+    width: 22px;
+    height: 18px;
+    top: -10px;
+    left: -6px;
   }
 }
 

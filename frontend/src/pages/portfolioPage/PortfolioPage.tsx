@@ -11,6 +11,7 @@ interface Project {
   liveUrl?: string;
   githubUrl?: string;
   featured?: boolean;
+  image?: string;
 }
 
 // Sample projects - replace with your actual projects
@@ -22,7 +23,8 @@ const projects: Project[] = [
     technologies: ["React", "Node.js", "PostgreSQL", "WebSocket"],
     liveUrl: "#",
     githubUrl: "#",
-    featured: true
+    featured: true,
+    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=300&fit=crop"
   },
   {
     id: 2,
@@ -31,7 +33,8 @@ const projects: Project[] = [
     technologies: ["Python", "TensorFlow", "D3.js", "FastAPI"],
     liveUrl: "#",
     githubUrl: "#",
-    featured: true
+    featured: true,
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop"
   },
   {
     id: 3,
@@ -40,7 +43,8 @@ const projects: Project[] = [
     technologies: ["React Native", "Stripe", "Firebase", "Redux"],
     liveUrl: "#",
     githubUrl: "#",
-    featured: false
+    featured: false,
+    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=300&fit=crop"
   },
   {
     id: 4,
@@ -48,7 +52,8 @@ const projects: Project[] = [
     description: "DevOps automation toolkit",
     technologies: ["Go", "Docker", "Kubernetes", "Terraform"],
     githubUrl: "#",
-    featured: false
+    featured: false,
+    image: "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=400&h=300&fit=crop"
   },
   {
     id: 5,
@@ -57,7 +62,8 @@ const projects: Project[] = [
     technologies: ["TypeScript", "Yjs", "WebRTC", "Tailwind"],
     liveUrl: "#",
     githubUrl: "#",
-    featured: true
+    featured: true,
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=300&fit=crop"
   },
   {
     id: 6,
@@ -65,87 +71,121 @@ const projects: Project[] = [
     description: "API gateway and monitoring system",
     technologies: ["Rust", "Redis", "Prometheus", "Grafana"],
     githubUrl: "#",
-    featured: false
+    featured: false,
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&h=300&fit=crop"
   }
 ];
 
+// Santa Hat SVG Component
+const SantaHat: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={`santa-hat ${className || ''}`} viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* Hat body */}
+    <path d="M10 70 Q15 30 50 15 Q85 30 90 70" fill="#c41e3a" />
+    {/* White trim */}
+    <ellipse cx="50" cy="70" rx="45" ry="10" fill="#fff" />
+    {/* Pompom */}
+    <circle cx="50" cy="10" r="10" fill="#fff" />
+    {/* Hat tip curve */}
+    <path d="M50 15 Q70 5 75 20" stroke="#c41e3a" strokeWidth="8" fill="none" strokeLinecap="round" />
+    <circle cx="75" cy="22" r="8" fill="#fff" />
+  </svg>
+);
+
 const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const [isFlipped, setIsFlipped] = useState(false);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = (y - centerY) / 10;
-    const rotateY = (centerX - x) / 10;
-
-    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-  };
-
-  const handleMouseLeave = () => {
-    if (cardRef.current) {
-      cardRef.current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-    }
+  const handleCornerClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsFlipped(!isFlipped);
   };
 
   return (
     <div
-      ref={cardRef}
-      className={`project-card ${project.featured ? 'featured' : ''}`}
+      className={`project-card-container ${isFlipped ? 'flipped' : ''}`}
       style={{ animationDelay: `${index * 0.1}s` }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
     >
-      <div className="card-glow" />
-      <div className="card-content">
-        <div className="card-header">
-          <h3 className="project-title">{project.title}</h3>
-          {project.featured && <span className="featured-badge">Featured</span>}
+      <div className="project-card-inner">
+        {/* Front of card */}
+        <div className={`project-card front ${project.featured ? 'featured' : ''}`}>
+          {project.featured && <SantaHat className="card-santa-hat" />}
+          <div className="card-glow" />
+          <div className="card-content">
+            <div className="card-header">
+              <h3 className="project-title">{project.title}</h3>
+              {project.featured && <span className="featured-badge">Featured</span>}
+            </div>
+
+            <p className="project-description">{project.description}</p>
+
+            <div className="tech-stack">
+              {project.technologies.map((tech, i) => (
+                <span
+                  key={tech}
+                  className="tech-tag"
+                  style={{ animationDelay: `${i * 0.05}s` }}
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+
+            <div className="card-links">
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  className="project-link live-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <ExternalLink size={18} />
+                  <span>Live Demo</span>
+                </a>
+              )}
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  className="project-link github-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Github size={18} />
+                  <span>Source</span>
+                </a>
+              )}
+            </div>
+          </div>
+          <div className="card-border" />
+
+          {/* Corner peel */}
+          <div className="corner-peel" onClick={handleCornerClick}>
+            <div className="corner-peel-front" />
+            <div className="corner-peel-back" />
+            <span className="corner-hint">Flip</span>
+          </div>
         </div>
 
-        <p className="project-description">{project.description}</p>
+        {/* Back of card */}
+        <div className="project-card back">
+          <div
+            className="card-image"
+            style={{ backgroundImage: `url(${project.image})` }}
+          >
+            <div className="image-overlay">
+              <h3 className="project-title">{project.title}</h3>
+            </div>
+          </div>
+          <div className="card-border" />
 
-        <div className="tech-stack">
-          {project.technologies.map((tech, i) => (
-            <span
-              key={tech}
-              className="tech-tag"
-              style={{ animationDelay: `${i * 0.05}s` }}
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        <div className="card-links">
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              className="project-link live-link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <ExternalLink size={18} />
-              <span>Live Demo</span>
-            </a>
-          )}
-          {project.githubUrl && (
-            <a
-              href={project.githubUrl}
-              className="project-link github-link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github size={18} />
-              <span>Source</span>
-            </a>
-          )}
+          {/* Corner peel on back */}
+          <div className="corner-peel" onClick={handleCornerClick}>
+            <div className="corner-peel-front" />
+            <div className="corner-peel-back" />
+            <span className="corner-hint">Back</span>
+          </div>
         </div>
       </div>
-      <div className="card-border" />
     </div>
   );
 };
@@ -192,7 +232,10 @@ const PortfolioPage: React.FC = () => {
           </header>
 
           <div className="hero-content">
-            <div className="hero-badge">Pet Projects</div>
+            <div className="hero-badge">
+              <SantaHat className="badge-santa-hat" />
+              Pet Projects
+            </div>
             <h1 className="hero-title">
               Crafting Digital
               <span className="gradient-text"> Experiences</span>
@@ -203,6 +246,7 @@ const PortfolioPage: React.FC = () => {
             </p>
 
             <div className="hero-stats">
+              <SantaHat className="stats-santa-hat" />
               <div className="stat">
                 <span className="stat-number">{projects.length}</span>
                 <span className="stat-label">Projects</span>
@@ -236,8 +280,9 @@ const PortfolioPage: React.FC = () => {
         {/* Projects Section */}
         <section id="projects" className="scroll-section projects-section">
           <div className="section-header">
+            <SantaHat className="section-santa-hat" />
             <h2 className="section-title">My Projects</h2>
-            <p className="section-subtitle">Click on any project to explore more</p>
+            <p className="section-subtitle">Click the corner to flip and see project preview</p>
           </div>
 
           <div className="projects-grid">
