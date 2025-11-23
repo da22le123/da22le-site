@@ -1,14 +1,12 @@
 import "./PortfolioPage.css"
 import { ArrowDown, ExternalLink, Github, ChevronUp } from "lucide-react"
 import { Link } from "react-router-dom";
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 interface Project {
   id: number;
   title: string;
   description: string;
-  longDescription?: string;
-  image?: string;
   technologies: string[];
   liveUrl?: string;
   githubUrl?: string;
@@ -21,7 +19,6 @@ const projects: Project[] = [
     id: 1,
     title: "Project Alpha",
     description: "A full-stack web application with real-time features",
-    longDescription: "Built with modern technologies to deliver seamless user experience with real-time updates and responsive design.",
     technologies: ["React", "Node.js", "PostgreSQL", "WebSocket"],
     liveUrl: "#",
     githubUrl: "#",
@@ -31,7 +28,6 @@ const projects: Project[] = [
     id: 2,
     title: "Project Beta",
     description: "Machine learning powered analytics dashboard",
-    longDescription: "Interactive data visualization platform with ML predictions and insights.",
     technologies: ["Python", "TensorFlow", "D3.js", "FastAPI"],
     liveUrl: "#",
     githubUrl: "#",
@@ -41,7 +37,6 @@ const projects: Project[] = [
     id: 3,
     title: "Project Gamma",
     description: "Mobile-first e-commerce platform",
-    longDescription: "Scalable shopping experience with payment integration and inventory management.",
     technologies: ["React Native", "Stripe", "Firebase", "Redux"],
     liveUrl: "#",
     githubUrl: "#",
@@ -51,7 +46,6 @@ const projects: Project[] = [
     id: 4,
     title: "Project Delta",
     description: "DevOps automation toolkit",
-    longDescription: "CLI tools and scripts for streamlining deployment pipelines and infrastructure management.",
     technologies: ["Go", "Docker", "Kubernetes", "Terraform"],
     githubUrl: "#",
     featured: false
@@ -60,7 +54,6 @@ const projects: Project[] = [
     id: 5,
     title: "Project Epsilon",
     description: "Real-time collaboration workspace",
-    longDescription: "Multiplayer document editing with presence awareness and conflict resolution.",
     technologies: ["TypeScript", "Yjs", "WebRTC", "Tailwind"],
     liveUrl: "#",
     githubUrl: "#",
@@ -70,7 +63,6 @@ const projects: Project[] = [
     id: 6,
     title: "Project Zeta",
     description: "API gateway and monitoring system",
-    longDescription: "Centralized API management with rate limiting, analytics, and health monitoring.",
     technologies: ["Rust", "Redis", "Prometheus", "Grafana"],
     githubUrl: "#",
     featured: false
@@ -78,7 +70,6 @@ const projects: Project[] = [
 ];
 
 const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
-  const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -95,9 +86,8 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
     if (cardRef.current) {
-      cardRef.current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+      cardRef.current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
     }
   };
 
@@ -106,7 +96,6 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
       ref={cardRef}
       className={`project-card ${project.featured ? 'featured' : ''}`}
       style={{ animationDelay: `${index * 0.1}s` }}
-      onMouseEnter={() => setIsHovered(true)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
@@ -118,12 +107,6 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
         </div>
 
         <p className="project-description">{project.description}</p>
-
-        {project.longDescription && (
-          <p className={`project-long-description ${isHovered ? 'visible' : ''}`}>
-            {project.longDescription}
-          </p>
-        )}
 
         <div className="tech-stack">
           {project.technologies.map((tech, i) => (

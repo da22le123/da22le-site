@@ -1,5 +1,5 @@
 /* ==========================================
-   PORTFOLIO PAGE - STUNNING DESIGN
+   PORTFOLIO PAGE - CHRISTMAS THEME
    ========================================== */
 
 /* Base Styles */
@@ -123,8 +123,8 @@ h2.anim-typewriter {
 .hero-badge {
   display: inline-block;
   padding: 0.5rem 1.5rem;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
-  border: 1px solid rgba(102, 126, 234, 0.3);
+  background: linear-gradient(135deg, rgba(196, 30, 58, 0.2), rgba(34, 139, 34, 0.2));
+  border: 1px solid rgba(255, 215, 0, 0.3);
   border-radius: 50px;
   font-size: 0.875rem;
   font-weight: 500;
@@ -136,10 +136,10 @@ h2.anim-typewriter {
 
 @keyframes pulse {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4);
   }
   50% {
-    box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+    box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
   }
 }
 
@@ -151,7 +151,7 @@ h2.anim-typewriter {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  background: linear-gradient(135deg, #c41e3a 0%, #ffd700 50%, #228b22 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -180,7 +180,7 @@ h2.anim-typewriter {
   padding: 1.5rem 2rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 215, 0, 0.2);
   backdrop-filter: blur(10px);
 }
 
@@ -194,7 +194,7 @@ h2.anim-typewriter {
 .stat-number {
   font-size: 2rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #c41e3a, #ffd700);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -216,7 +216,7 @@ h2.anim-typewriter {
 
 .view-projects-button {
   font-family: "JetBrains Mono", monospace;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
   color: white;
   font-weight: 600;
   font-size: 1rem;
@@ -228,7 +228,7 @@ h2.anim-typewriter {
   padding: 1rem 2rem;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 15px rgba(196, 30, 58, 0.4);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
@@ -251,7 +251,7 @@ h2.anim-typewriter {
 
 .view-projects-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+  box-shadow: 0 8px 25px rgba(196, 30, 58, 0.5);
 }
 
 .bounce-arrow {
@@ -353,7 +353,7 @@ h2.anim-typewriter {
 }
 
 /* ==========================================
-   PROJECT CARDS - Glassmorphism
+   PROJECT CARDS - Christmas Theme
    ========================================== */
 .project-card {
   position: relative;
@@ -377,13 +377,13 @@ h2.anim-typewriter {
   }
 }
 
-/* Animated Border */
+/* Animated Border - Christmas colors */
 .card-border {
   position: absolute;
   inset: 0;
   border-radius: 20px;
   padding: 2px;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5), rgba(240, 147, 251, 0.5));
+  background: linear-gradient(135deg, rgba(196, 30, 58, 0.6), rgba(255, 215, 0, 0.6), rgba(34, 139, 34, 0.6));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -397,12 +397,12 @@ h2.anim-typewriter {
   opacity: 1;
 }
 
-/* Glow Effect */
+/* Glow Effect - Christmas red */
 .card-glow {
   position: absolute;
   inset: 0;
   border-radius: 20px;
-  background: radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.15), transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(196, 30, 58, 0.1), transparent 70%);
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -412,9 +412,9 @@ h2.anim-typewriter {
   opacity: 1;
 }
 
-/* Featured Card */
+/* Featured Card - Christmas theme */
 .project-card.featured {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+  background: linear-gradient(135deg, rgba(196, 30, 58, 0.1), rgba(34, 139, 34, 0.1));
 }
 
 .project-card.featured .card-border {
@@ -447,7 +447,7 @@ h2.anim-typewriter {
 
 .featured-badge {
   padding: 0.25rem 0.75rem;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #c41e3a, #8b0000);
   border-radius: 20px;
   font-size: 0.7rem;
   font-weight: 600;
@@ -461,22 +461,6 @@ h2.anim-typewriter {
   color: rgba(240, 248, 255, 0.8);
   line-height: 1.6;
   margin: 0;
-}
-
-.project-long-description {
-  font-size: 0.85rem;
-  color: rgba(240, 248, 255, 0.6);
-  line-height: 1.5;
-  margin: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease, opacity 0.3s ease;
-  opacity: 0;
-}
-
-.project-long-description.visible {
-  max-height: 100px;
-  opacity: 1;
 }
 
 /* Tech Stack Tags */
@@ -498,8 +482,8 @@ h2.anim-typewriter {
 }
 
 .project-card:hover .tech-tag {
-  background: rgba(102, 126, 234, 0.2);
-  border-color: rgba(102, 126, 234, 0.4);
+  background: rgba(34, 139, 34, 0.2);
+  border-color: rgba(34, 139, 34, 0.4);
 }
 
 /* Card Links */
@@ -530,7 +514,7 @@ h2.anim-typewriter {
 }
 
 .live-link:hover {
-  background: rgba(102, 126, 234, 0.3);
+  background: rgba(196, 30, 58, 0.3);
 }
 
 .github-link:hover {
@@ -547,14 +531,14 @@ h2.anim-typewriter {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #c41e3a, #8b0000);
   border: none;
   color: white;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 15px rgba(196, 30, 58, 0.4);
   opacity: 0;
   visibility: hidden;
   transform: translateY(20px);
@@ -570,7 +554,7 @@ h2.anim-typewriter {
 
 .back-to-top:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+  box-shadow: 0 8px 25px rgba(196, 30, 58, 0.5);
 }
 
 /* ==========================================
