@@ -91,6 +91,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
   const [peelAmount, setPeelAmount] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const startPosRef = useRef({ x: 0, y: 0 });
+  const startPeelRef = useRef(0);
   const peelRef = useRef(0);
 
   // Keep ref in sync with state for use in callbacks
@@ -100,20 +101,20 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
     e.preventDefault();
     setIsDragging(true);
     startPosRef.current = { x: e.clientX, y: e.clientY };
+    startPeelRef.current = peelRef.current; // Remember where we started
   }, []);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!isDragging) return;
 
+    // Calculate drag direction - up/left increases peel, down/right decreases
     const deltaX = startPosRef.current.x - e.clientX;
     const deltaY = startPosRef.current.y - e.clientY;
-    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-    // Only peel if dragging upward/leftward from corner
-    if (deltaY > 0 || deltaX > 0) {
-      const newPeel = Math.min(100, distance / 2);
-      setPeelAmount(newPeel);
-    }
+    // Use diagonal distance, positive = peeling, negative = unpeeling
+    const dragDistance = (deltaX + deltaY) / 2;
+    const newPeel = Math.max(0, Math.min(100, startPeelRef.current + dragDistance / 1.5));
+    setPeelAmount(newPeel);
   }, [isDragging]);
 
   const handleMouseUp = useCallback(() => {
@@ -130,6 +131,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     setIsDragging(true);
     startPosRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    startPeelRef.current = peelRef.current;
   }, []);
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
@@ -137,12 +139,10 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 
     const deltaX = startPosRef.current.x - e.touches[0].clientX;
     const deltaY = startPosRef.current.y - e.touches[0].clientY;
-    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-    if (deltaY > 0 || deltaX > 0) {
-      const newPeel = Math.min(100, distance / 2);
-      setPeelAmount(newPeel);
-    }
+    const dragDistance = (deltaX + deltaY) / 2;
+    const newPeel = Math.max(0, Math.min(100, startPeelRef.current + dragDistance / 1.5));
+    setPeelAmount(newPeel);
   }, [isDragging]);
 
   const handleTouchEnd = useCallback(() => {
@@ -175,12 +175,14 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
     setPeelAmount(peelAmount > 40 ? 0 : 100);
   };
 
-  // Calculate clip path - rectangle that shrinks from bottom-right
+  // Calculate clip path - diagonal peel from bottom-right corner
+  // The fold line moves from outside the card (p=0) to top-left corner (p=100)
   const p = peelAmount;
+  const foldPoint = 200 - (p * 2); // At p=0: 200% (off-screen), at p=100: 0%
   const clipPath = p >= 100
-    ? 'inset(0 100% 100% 0)' // fully hidden
+    ? 'polygon(0 0, 0 0, 0 0)' // fully hidden (collapsed to point)
     : p > 0
-      ? `polygon(0 0, ${100 - p}% 0, ${100 - p}% ${100 - p}%, 0 ${100 - p}%)`
+      ? `polygon(0 0, ${foldPoint}% 0, 0 ${foldPoint}%)`
       : 'none';
 
   return (
@@ -205,7 +207,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
         className={`project-card-front ${project.featured ? 'featured' : ''}`}
         style={{
           clipPath: clipPath,
-          transition: isDragging ? 'none' : 'clip-path 0.3s ease'
+          transition: isDragging ? 'none' : 'clip-path 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
         {project.featured && <SantaHat className="card-santa-hat" />}
